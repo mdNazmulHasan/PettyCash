@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -19,13 +20,20 @@ import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BudgetEntryActivity extends AppCompatActivity {
     String urlToGetCategory;
+    String urlToSubmitBudget;
     EditText budgetAmountET;
+    JSONObject budgetObject;
+    JSONObject categoryObject;
+    JSONArray budgetArray;
+    String amount;
     List<EditText> allEds = new ArrayList<>();
 
     @Override
@@ -41,7 +49,7 @@ public class BudgetEntryActivity extends AppCompatActivity {
         JsonArrayRequest requestToGetAllCategory = new JsonArrayRequest(Request.Method.GET, urlToGetCategory, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                    createDynamicForm(response);
+                createDynamicForm(response);
             }
 
 
@@ -66,6 +74,9 @@ public class BudgetEntryActivity extends AppCompatActivity {
                 budgetAmountET = new EditText(getApplicationContext());
                 budgetAmountET.getBackground().mutate().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
                 budgetAmountET.setTextColor(Color.BLACK);
+                Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
+                f.setAccessible(true);
+                f.set(budgetAmountET, R.drawable.cursor);
                 budgetAmountET.setHint("Enter your amount");
                 allEds.add(budgetAmountET);
                 budgetAmountET.setId(i);
@@ -75,6 +86,10 @@ public class BudgetEntryActivity extends AppCompatActivity {
                 budgetEntryLayout.addView(budgetAmountET);
             } catch (JSONException e) {
                 e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
             }
         }
         Button submit_btn = new Button(getApplicationContext());
@@ -83,8 +98,43 @@ public class BudgetEntryActivity extends AppCompatActivity {
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                budgetArray = new JSONArray();
+                for (int i = 0; i < allEds.size(); i++) {
+                    budgetObject = new JSONObject();
+                    amount = allEds.get(i).getText().toString();
+                    try {
+                        categoryObject = (JSONObject) allEds.get(i).getTag();
+                        String ExpenditureCategoryId = categoryObject.getString("Id");
+                        budgetObject.put("ExpenditureCategoryId", ExpenditureCategoryId);
+                        budgetObject.put("Amount", amount);
+                        budgetArray.put(budgetObject);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                Toast.makeText(getApplicationContext(),budgetArray.toString(),Toast.LENGTH_LONG).show();
+                budgetEntry();
+            }
+        });
+    }
+
+    private void budgetEntry() {
+        urlToSubmitBudget = "http://dotnet.nerdcastlebd.com/PettyCash/api/Budget/SaveBudgets";
+        JsonArrayRequest requestToSubmitBudget=new JsonArrayRequest(Request.Method.POST, urlToSubmitBudget, budgetArray, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
             }
         });
+        AppController.getInstance().addToRequestQueue(requestToSubmitBudget);
+
     }
 }
