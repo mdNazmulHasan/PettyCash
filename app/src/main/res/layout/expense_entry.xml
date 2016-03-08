@@ -49,6 +49,7 @@
         <EditText
             android:id="@+id/itemET"
             android:layout_width="0dp"
+            android:singleLine="true"
             android:layout_height="50dp"
             android:layout_weight=".8"></EditText>
 

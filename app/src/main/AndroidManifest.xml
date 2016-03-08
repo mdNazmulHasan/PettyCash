@@ -14,17 +14,27 @@
         <activity
             android:name=".BudgetEntryActivity"
             android:label="Budget Entry">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity
             android:name=".ExpenseActivity"
             android:label="Expense Entry">
 
+        </activity>
+        <activity
+            android:name=".SpecificReportActivity"
+            android:label="Specific Report">
+
+        </activity>
+        <activity
+            android:name=".TotalReportActivity"
+            android:label="Total Report">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

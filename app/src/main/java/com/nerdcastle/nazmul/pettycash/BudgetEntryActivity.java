@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BudgetEntryActivity extends AppCompatActivity {
+    Util util;
+    String baseUrl=util.baseURL;
     String urlToGetCategory;
     String urlToSubmitBudget;
     EditText budgetAmountET;
@@ -45,7 +47,7 @@ public class BudgetEntryActivity extends AppCompatActivity {
 
     private void createBudgetWindow() {
 
-        urlToGetCategory = "http://dotnet.nerdcastlebd.com/PettyCash/api/Category/GetAllCategories";
+        urlToGetCategory = baseUrl+"/PettyCash/api/Category/GetAllCategories";
         JsonArrayRequest requestToGetAllCategory = new JsonArrayRequest(Request.Method.GET, urlToGetCategory, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -121,7 +123,7 @@ public class BudgetEntryActivity extends AppCompatActivity {
     }
 
     private void budgetEntry() {
-        urlToSubmitBudget = "http://dotnet.nerdcastlebd.com/PettyCash/api/Budget/SaveBudgets";
+        urlToSubmitBudget = baseUrl+"/PettyCash/api/Budget/SaveBudgets";
         JsonArrayRequest requestToSubmitBudget=new JsonArrayRequest(Request.Method.POST, urlToSubmitBudget, budgetArray, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {

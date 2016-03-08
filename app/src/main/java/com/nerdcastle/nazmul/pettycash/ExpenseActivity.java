@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
  * Created by Nazmul on 3/7/2016.
  */
 public class ExpenseActivity extends AppCompatActivity {
+    Util util;
+    String baseUrl=util.baseURL;
     Spinner categorySpinner;
     String urlToGetCategory;
     String urlToSubmitExpense;
@@ -43,7 +46,7 @@ public class ExpenseActivity extends AppCompatActivity {
     private void getCategory() {
         categoryList = new ArrayList<>();
         idList = new ArrayList<>();
-        urlToGetCategory = "http://dotnet.nerdcastlebd.com/PettyCash/api/Category/GetAllCategories";
+        urlToGetCategory = baseUrl+"/PettyCash/api/Category/GetAllCategories";
         JsonArrayRequest requestToGetAllCategory = new JsonArrayRequest(Request.Method.GET, urlToGetCategory, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -93,23 +96,26 @@ public class ExpenseActivity extends AppCompatActivity {
         String categoryId=idList.get(idPosition);
         String particular=itemEt.getText().toString();
         String amount=amountEt.getText().toString();
-        urlToSubmitExpense="http://dotnet.nerdcastlebd.com/PettyCash/api/Expense/SaveExpense";
+        urlToSubmitExpense=baseUrl+"/PettyCash/api/Expense/SaveExpense";
         JSONObject expenseObject=new JSONObject();
         expenseObject.put("ExpenditureCategoryId",categoryId);
         expenseObject.put("Particular",particular);
         expenseObject.put("Amount",amount);
         JsonObjectRequest requestToSubmitExpense=new JsonObjectRequest(Request.Method.POST, urlToSubmitExpense, expenseObject, new Response.Listener<JSONObject>() {
+
             @Override
             public void onResponse(JSONObject response) {
+                Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_LONG).show();
             }
         });
         AppController.getInstance().addToRequestQueue(requestToSubmitExpense);
+        Toast.makeText(getApplicationContext(),requestToSubmitExpense.toString(),Toast.LENGTH_LONG).show();
     }
 
 
