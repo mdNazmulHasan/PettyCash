@@ -3,6 +3,8 @@ package com.nerdcastle.nazmul.pettycash;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -33,6 +35,32 @@ public class TotalReportActivity extends AppCompatActivity {
         setContentView(R.layout.total_report);
         initialize();
         getCategoryWiseBudgetAndExpense();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_for_total_report, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.reload:
+                getCategoryWiseBudgetAndExpense();
+                return true;
+            case R.id.budget:
+                Intent budgetIntent = new Intent(getApplicationContext(),
+                        BudgetEntryActivity.class);
+                startActivity(budgetIntent);
+                return true;
+            case R.id.expense:
+                Intent expenseIntent = new Intent(getApplicationContext(),
+                        BudgetEntryActivity.class);
+                startActivity(expenseIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void getCategoryWiseBudgetAndExpense() {

@@ -1,7 +1,10 @@
 package com.nerdcastle.nazmul.pettycash;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,6 +39,37 @@ public class SpecificReportActivity extends AppCompatActivity {
         initialize();
         getReportData();
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_for_specific_report, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.reload:
+                getReportData();
+                return true;
+            case R.id.home:
+                Intent homeIntent = new Intent(getApplicationContext(),
+                        TotalReportActivity.class);
+                startActivity(homeIntent);
+                return true;
+            case R.id.budget:
+                Intent budgetIntent = new Intent(getApplicationContext(),
+                        BudgetEntryActivity.class);
+                startActivity(budgetIntent);
+                return true;
+            case R.id.expense:
+                Intent expenseIntent = new Intent(getApplicationContext(),
+                        BudgetEntryActivity.class);
+                startActivity(expenseIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void getReportData() {

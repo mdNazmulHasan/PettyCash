@@ -1,10 +1,13 @@
 package com.nerdcastle.nazmul.pettycash;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +31,7 @@ import java.util.List;
 
 public class BudgetEntryActivity extends AppCompatActivity {
     Util util;
-    String baseUrl=util.baseURL;
+    String baseUrl = util.baseURL;
     String urlToGetCategory;
     String urlToSubmitBudget;
     EditText budgetAmountET;
@@ -45,9 +48,38 @@ public class BudgetEntryActivity extends AppCompatActivity {
         createBudgetWindow();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_for_budget_entry, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.home:
+                Intent homeIntent = new Intent(getApplicationContext(),
+                        TotalReportActivity.class);
+                startActivity(homeIntent);
+                return true;
+            case R.id.reload:
+                createBudgetWindow();
+                return true;
+
+            case R.id.expense:
+                Intent expenseIntent = new Intent(getApplicationContext(),
+                        ExpenseActivity.class);
+                startActivity(expenseIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void createBudgetWindow() {
 
-        urlToGetCategory = baseUrl+"/PettyCash/api/Category/GetAllCategories";
+        urlToGetCategory = baseUrl + "/PettyCash/api/Category/GetAllCategories";
         JsonArrayRequest requestToGetAllCategory = new JsonArrayRequest(Request.Method.GET, urlToGetCategory, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -116,18 +148,18 @@ public class BudgetEntryActivity extends AppCompatActivity {
                     }
 
                 }
-                Toast.makeText(getApplicationContext(),budgetArray.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), budgetArray.toString(), Toast.LENGTH_LONG).show();
                 budgetEntry();
             }
         });
     }
 
     private void budgetEntry() {
-        urlToSubmitBudget = baseUrl+"/PettyCash/api/Budget/SaveBudgets";
-        JsonArrayRequest requestToSubmitBudget=new JsonArrayRequest(Request.Method.POST, urlToSubmitBudget, budgetArray, new Response.Listener<JSONArray>() {
+        urlToSubmitBudget = baseUrl + "/PettyCash/api/Budget/SaveBudgets";
+        JsonArrayRequest requestToSubmitBudget = new JsonArrayRequest(Request.Method.POST, urlToSubmitBudget, budgetArray, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
 
             }
         }, new Response.ErrorListener() {
