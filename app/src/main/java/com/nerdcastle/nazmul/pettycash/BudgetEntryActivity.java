@@ -40,7 +40,8 @@ public class BudgetEntryActivity extends AppCompatActivity {
     JSONArray budgetArray;
     String amount;
     String token;
-
+    ArrayList<String>amountList;
+    int total;
     List<EditText> allEds = new ArrayList<>();
 
     @Override
@@ -48,7 +49,7 @@ public class BudgetEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.budget_entry);
         token=getIntent().getStringExtra("Token");
-        Toast.makeText(getApplicationContext(),token,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),token,Toast.LENGTH_LONG).show();
         createBudgetWindow();
 
     }
@@ -94,7 +95,7 @@ public class BudgetEntryActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 createDynamicForm(response);
-                Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
             }
 
 
@@ -143,10 +144,14 @@ public class BudgetEntryActivity extends AppCompatActivity {
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                total=0;
+                amountList=new ArrayList<String>();
                 budgetArray = new JSONArray();
                 for (int i = 0; i < allEds.size(); i++) {
                     budgetObject = new JSONObject();
                     amount = allEds.get(i).getText().toString();
+                    total= Integer.parseInt(total+amount);
+                    amountList.add(amount);
                     try {
                         categoryObject = (JSONObject) allEds.get(i).getTag();
                         String ExpenditureCategoryId = categoryObject.getString("Id");
@@ -160,8 +165,16 @@ public class BudgetEntryActivity extends AppCompatActivity {
                     }
 
                 }
-                //Toast.makeText(getApplicationContext(), budgetArray.toString(), Toast.LENGTH_LONG).show();
-                budgetEntry();
+
+                //Toast.makeText(getApplicationContext(), String.valueOf(total), Toast.LENGTH_LONG).show();
+                if(total!=0){
+                    budgetEntry();
+                    Intent reloadIntent = new Intent(getApplicationContext(),
+                            BudgetEntryActivity.class);
+                    reloadIntent.putExtra("Token", token);
+                    startActivity(reloadIntent);
+                }
+
             }
         });
     }
@@ -171,7 +184,13 @@ public class BudgetEntryActivity extends AppCompatActivity {
         JsonArrayRequest requestToSubmitBudget = new JsonArrayRequest(Request.Method.POST, urlToSubmitBudget, budgetArray, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                try {
+                    String message=response.getJSONObject(0).getString("Message");
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
         }, new Response.ErrorListener() {

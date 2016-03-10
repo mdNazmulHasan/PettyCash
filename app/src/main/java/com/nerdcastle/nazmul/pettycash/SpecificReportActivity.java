@@ -73,7 +73,7 @@ public class SpecificReportActivity extends AppCompatActivity {
                 return true;
             case R.id.expense:
                 Intent expenseIntent = new Intent(getApplicationContext(),
-                        BudgetEntryActivity.class);
+                        ExpenseActivity.class);
                 expenseIntent.putExtra("Token",token);
                 startActivity(expenseIntent);
                 return true;

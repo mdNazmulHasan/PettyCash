@@ -33,8 +33,8 @@ public class ExpenseActivity extends AppCompatActivity {
     Spinner categorySpinner;
     String urlToGetCategory;
     String urlToSubmitExpense;
-    ArrayList<String> categoryList;
-    ArrayList<String> idList;
+    ExpenseModel expenseModel;
+    ArrayList<ExpenseModel>expenseModelArrayList;
     EditText itemEt;
     String token;
     EditText amountEt;
@@ -80,8 +80,7 @@ public class ExpenseActivity extends AppCompatActivity {
     }
 
     private void getCategory() {
-        categoryList = new ArrayList<>();
-        idList = new ArrayList<>();
+        expenseModelArrayList=new ArrayList<>();
         urlToGetCategory = baseUrl + "api/Category/GetAllCategories?token=" + token;
         JsonArrayRequest requestToGetAllCategory = new JsonArrayRequest(Request.Method.GET, urlToGetCategory, new Response.Listener<JSONArray>() {
             @Override
@@ -92,12 +91,14 @@ public class ExpenseActivity extends AppCompatActivity {
 
                         String name = response.getJSONObject(i).getString("Name");
                         String id = response.getJSONObject(i).getString("Id");
-                        categoryList.add(name);
-                        idList.add(id);
+                        expenseModel=new ExpenseModel(name,id);
+                        expenseModelArrayList.add(expenseModel);
+                        /*categoryList.add(name);
+                        idList.add(id);*/
 
 
                     }
-                    ArrayAdapter<String> adapterForCategory = new ArrayAdapter(getBaseContext(), R.layout.spinner_item, categoryList);
+                    ArrayAdapter<ExpenseModel> adapterForCategory = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_item, expenseModelArrayList);
                     adapterForCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     categorySpinner.setAdapter(adapterForCategory);
                 } catch (JSONException e) {
@@ -125,11 +126,13 @@ public class ExpenseActivity extends AppCompatActivity {
 
     public void submit(View view) throws JSONException {
         expenseSubmit();
+        amountEt.setText("");
+        itemEt.setText("");
     }
 
     private void expenseSubmit() throws JSONException {
         int idPosition = categorySpinner.getSelectedItemPosition();
-        String categoryId = idList.get(idPosition);
+        String categoryId = expenseModelArrayList.get(idPosition).getCategoryId();
         String particular = itemEt.getText().toString();
         String amount = amountEt.getText().toString();
         urlToSubmitExpense = baseUrl + "api/Expense/SaveExpense";
