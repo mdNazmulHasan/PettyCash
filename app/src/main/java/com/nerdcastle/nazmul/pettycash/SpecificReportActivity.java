@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -27,6 +28,9 @@ public class SpecificReportActivity extends AppCompatActivity {
     String baseUrl = util.baseURL;
     String urlToGetReport;
     String categoryId;
+    String categoryName;
+    String token;
+    TextView categoryTV;
     SpecificReportModel specificReportModel;
     ArrayList<SpecificReportModel> specificReportModelArrayList;
     AdapterForSpecificReport adapterForSpecificReport;
@@ -35,8 +39,11 @@ public class SpecificReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.specific_report);
+        token=getIntent().getStringExtra("Token");
+        categoryName=getIntent().getStringExtra("category");
         categoryId = getIntent().getStringExtra("categoryId");
         initialize();
+        categoryTV.setText(categoryName);
         getReportData();
 
     }
@@ -55,16 +62,19 @@ public class SpecificReportActivity extends AppCompatActivity {
             case R.id.home:
                 Intent homeIntent = new Intent(getApplicationContext(),
                         TotalReportActivity.class);
+                homeIntent.putExtra("Token",token);
                 startActivity(homeIntent);
                 return true;
             case R.id.budget:
                 Intent budgetIntent = new Intent(getApplicationContext(),
                         BudgetEntryActivity.class);
+                budgetIntent.putExtra("Token",token);
                 startActivity(budgetIntent);
                 return true;
             case R.id.expense:
                 Intent expenseIntent = new Intent(getApplicationContext(),
                         BudgetEntryActivity.class);
+                expenseIntent.putExtra("Token",token);
                 startActivity(expenseIntent);
                 return true;
             default:
@@ -74,20 +84,26 @@ public class SpecificReportActivity extends AppCompatActivity {
 
     private void getReportData() {
         specificReportModelArrayList = new ArrayList<>();
-        urlToGetReport = baseUrl + "/PettyCash/api/Report/GetCategoryWiseBudgetExpenseDetails?categoryid=" + categoryId;
+        urlToGetReport = baseUrl + "api/Report/GetCategoryWiseBudgetExpenseDetails?categoryid=" + categoryId+"&token="+token;
         JsonArrayRequest requestToGetReport = new JsonArrayRequest(Request.Method.GET, urlToGetReport, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                try{
+                    String message=response.getJSONObject(0).getString("Message");
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     for (int i = 0; i < response.length(); i++) {
 
-                        String date = response.getJSONObject(i).getString("Date");
+                        String date = response.getJSONObject(i).getString("DateString");
                         String budget = response.getJSONObject(i).getString("Budget");
                         String expense = response.getJSONObject(i).getString("Expense");
                         specificReportModel = new SpecificReportModel(date, budget, expense);
                         specificReportModelArrayList.add(specificReportModel);
                     }
-                    Toast.makeText(getApplicationContext(), specificReportModelArrayList.get(1).getDate(), Toast.LENGTH_LONG).show();
                     adapterForSpecificReport = new AdapterForSpecificReport(getApplicationContext(), specificReportModelArrayList);
                     reportLV.setAdapter(adapterForSpecificReport);
 
@@ -108,6 +124,7 @@ public class SpecificReportActivity extends AppCompatActivity {
 
     private void initialize() {
         reportLV = (ListView) findViewById(R.id.reportLV);
+        categoryTV= (TextView) findViewById(R.id.categoryTV);
 
     }
 }

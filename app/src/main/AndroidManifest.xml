@@ -30,6 +30,11 @@
         <activity
             android:name=".TotalReportActivity"
             android:label="Total Report">
+
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="Petty Cash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
