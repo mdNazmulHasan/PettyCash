@@ -38,7 +38,11 @@ public class TotalReportActivity extends AppCompatActivity {
     AdapterForTotalReport adapterForTotalReport;
     TextView monthTV;
     TextView budgetTV;
+    TextView remainTV;
     TextView expenseTV;
+    TextView expenseTitleTV;
+    TextView budgetTitleTV;
+    TextView remainTitleTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +62,18 @@ public class TotalReportActivity extends AppCompatActivity {
                     String month=response.getString("MonthAndYear");
                     String budget=response.getString("Budget");
                     String expense=response.getString("Expense");
+                    float remainingBalance= Float.parseFloat(budget)-Float.parseFloat(expense);
                     monthTV.setVisibility(View.VISIBLE);
                     budgetTV.setVisibility(View.VISIBLE);
+                    remainTV.setVisibility(View.VISIBLE);
                     expenseTV.setVisibility(View.VISIBLE);
+                    budgetTitleTV.setVisibility(View.VISIBLE);
+                    expenseTitleTV.setVisibility(View.VISIBLE);
+                    remainTitleTV.setVisibility(View.VISIBLE);
                     monthTV.setText(month);
-                    budgetTV.setText("Total Budget: "+budget+" ৳");
-                    expenseTV.setText("Total Expense: "+expense+" ৳");
+                    budgetTV.setText(budget+" ৳");
+                    remainTV.setText(String.valueOf(remainingBalance)+" ৳");
+                    expenseTV.setText(expense+" ৳");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -168,5 +178,9 @@ public class TotalReportActivity extends AppCompatActivity {
         monthTV= (TextView) findViewById(R.id.monthTV);
         budgetTV= (TextView) findViewById(R.id.totalDepositTV);
         expenseTV= (TextView) findViewById(R.id.totalExpenseTV);
+        remainTV= (TextView) findViewById(R.id.totalRemainTV);
+        budgetTitleTV= (TextView) findViewById(R.id.totalDepositTitleTV);
+        expenseTitleTV= (TextView) findViewById(R.id.totalExpenseTitleTV);
+        remainTitleTV= (TextView) findViewById(R.id.totalRemainTitleTV);
     }
 }

@@ -28,6 +28,7 @@ public class AdapterForTotalReport extends ArrayAdapter<TotalReportModel> {
     private static class ViewHolder {
         public TextView categoryTV;
         public TextView budgetTV;
+        public TextView remainTV;
         public TextView expenseTV;
         public AnimateHorizontalProgressBar progressBar;
     }
@@ -42,6 +43,7 @@ public class AdapterForTotalReport extends ArrayAdapter<TotalReportModel> {
             holder = new ViewHolder();
             holder.categoryTV = (TextView) view.findViewById(R.id.categoryTV);
             holder.budgetTV = (TextView) view.findViewById(R.id.budgetTV);
+            holder.remainTV = (TextView) view.findViewById(R.id.remainTV);
             holder.expenseTV = (TextView) view.findViewById(R.id.expenseTV);
             holder.progressBar = (AnimateHorizontalProgressBar) view.findViewById(R.id.animate_progress_bar);
             view.setTag(holder);
@@ -58,6 +60,8 @@ public class AdapterForTotalReport extends ArrayAdapter<TotalReportModel> {
         holder.expenseTV.setText(totalReportModelArrayList.get(position).getExpense()+" ৳");
         int budget=(int) Float.parseFloat(totalReportModelArrayList.get(position).getBudget());
         int expense=(int) Float.parseFloat(totalReportModelArrayList.get(position).getExpense());
+        int remainingBalance=budget-expense;
+        holder.remainTV.setText(String.valueOf(remainingBalance)+" ৳");
         if(budget<expense){
             //holder.progressBar.setBackgroundColor(Color.parseColor("#f44336"));
             holder.progressBar.setMax((int) Float.parseFloat(totalReportModelArrayList.get(position).getExpense()));

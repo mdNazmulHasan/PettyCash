@@ -41,7 +41,7 @@ public class BudgetEntryActivity extends AppCompatActivity {
     String amount;
     String token;
     ArrayList<String>amountList;
-    int total;
+    double total;
     List<EditText> allEds = new ArrayList<>();
 
     @Override
@@ -150,7 +150,7 @@ public class BudgetEntryActivity extends AppCompatActivity {
                 for (int i = 0; i < allEds.size(); i++) {
                     budgetObject = new JSONObject();
                     amount = allEds.get(i).getText().toString();
-                    total= Integer.parseInt(total+amount);
+                    total= Double.parseDouble(total+amount);
                     amountList.add(amount);
                     try {
                         categoryObject = (JSONObject) allEds.get(i).getTag();
