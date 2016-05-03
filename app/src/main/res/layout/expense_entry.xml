@@ -72,7 +72,7 @@
         <EditText
             android:id="@+id/amountET"
             android:layout_width="0dp"
-            android:inputType="number"
+            android:inputType="numberSigned|numberDecimal"
             android:layout_height="50dp"
             android:layout_weight=".8"></EditText>
 

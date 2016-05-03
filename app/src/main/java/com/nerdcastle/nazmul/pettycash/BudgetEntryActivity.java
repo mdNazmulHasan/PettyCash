@@ -83,6 +83,12 @@ public class BudgetEntryActivity extends AppCompatActivity {
                 expenseIntent.putExtra("Token",token);
                 startActivity(expenseIntent);
                 return true;
+            case R.id.summaryReport:
+                Intent summaryReportIntent = new Intent(getApplicationContext(),
+                        SummaryReportActivity.class);
+                summaryReportIntent.putExtra("Token",token);
+                startActivity(summaryReportIntent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

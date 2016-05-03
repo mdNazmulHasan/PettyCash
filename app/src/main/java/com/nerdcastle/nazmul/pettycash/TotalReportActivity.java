@@ -100,6 +100,7 @@ public class TotalReportActivity extends AppCompatActivity {
             case R.id.reload:
                 if(adapterForTotalReport==null){
                     getCategoryWiseBudgetAndExpense();
+                    getMOnthAndExpense();
                 }
                 return true;
             case R.id.budget:
@@ -113,6 +114,12 @@ public class TotalReportActivity extends AppCompatActivity {
                         ExpenseActivity.class);
                 expenseIntent.putExtra("Token",token);
                 startActivity(expenseIntent);
+                return true;
+            case R.id.summaryReport:
+                Intent summaryReportIntent = new Intent(getApplicationContext(),
+                        SummaryReportActivity.class);
+                summaryReportIntent.putExtra("Token",token);
+                startActivity(summaryReportIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -17,5 +17,10 @@
         android:orderInCategory="3"
         android:title="Expense Entry"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/summaryReport"
+        android:orderInCategory="4"
+        android:title="Summary Report"
+        app:showAsAction="never" />
 
 </menu>

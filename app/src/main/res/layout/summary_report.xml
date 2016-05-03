@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:text="@string/month" />
+
+        <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/monthSpinner"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight=".8"
+            android:background="@color/colorPrimary"></Spinner>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".6"
+            android:onClick="getData"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="@string/sync" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1.5"
+        android:layout_marginTop="8dp"
+        android:layout_height="0dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:text="@string/year" />
+
+        <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/yearSpinner"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.81"
+            android:background="@color/colorPrimary"></Spinner>
+        <View
+            android:layout_width="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".6" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="2.2"
+        android:layout_marginTop="8dp"
+        android:layout_height="0dp">
+        <TextView
+            android:id="@+id/categoryTV"
+            android:layout_width="0dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/category" />
+        <TextView
+            android:id="@+id/budgetTV"
+            android:layout_width="0dp"
+            android:paddingLeft="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/budget" />
+
+        <TextView
+            android:id="@+id/expenseTV"
+            android:layout_width="0dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/expense" />
+
+        <TextView
+            android:id="@+id/balanceTV"
+            android:layout_width="0dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/balance" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/summaryReportListView"
+        android:layout_width="match_parent"
+        android:layout_weight="8"
+        android:layout_height="0dp"></ListView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1.5"
+        android:orientation="horizontal"
+        android:layout_height="0dp">
+        <Button
+            android:layout_width="0dp"
+            android:id="@+id/pdfBtn"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="createPdf"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:textColor="#ffffff"
+            android:background="@color/colorPrimary"
+            android:text="@string/save_pdf"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

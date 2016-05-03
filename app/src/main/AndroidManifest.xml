@@ -3,6 +3,7 @@
     package="com.nerdcastle.nazmul.pettycash">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".AppController"
@@ -25,6 +26,11 @@
         <activity
             android:name=".SpecificReportActivity"
             android:label="Specific Report">
+
+        </activity>
+        <activity
+            android:name=".SummaryReportActivity"
+            android:label="Summary Report">
 
         </activity>
         <activity

@@ -36,22 +36,10 @@
             android:layout_weight="1"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="Total Deposit"
+            android:text="Deposit"
             android:visibility="gone"
             android:textColor="#000000"
             android:textSize="15sp" />
-        <TextView
-            android:id="@+id/totalRemainTitleTV"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:text="Total Remaining"
-            android:visibility="gone"
-            android:textColor="#000000"
-            android:textSize="15sp" />
-
         <TextView
             android:id="@+id/totalExpenseTitleTV"
             android:layout_width="0dp"
@@ -59,7 +47,19 @@
             android:layout_weight="1"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="Total Expense"
+            android:text="Expense"
+            android:visibility="gone"
+            android:textColor="#000000"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/totalRemainTitleTV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="Balance"
             android:textColor="#000000"
             android:visibility="gone"
             android:textSize="15sp" />
@@ -81,7 +81,7 @@
             android:textColor="#000000"
             android:textSize="15sp" />
         <TextView
-            android:id="@+id/totalRemainTV"
+            android:id="@+id/totalExpenseTV"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -92,7 +92,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/totalExpenseTV"
+            android:id="@+id/totalRemainTV"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
